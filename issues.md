@@ -56,3 +56,10 @@ J’avais aussi prévu de réaliser :
 
 afin d’améliorer la couverture de code. Cette étape est facultative, mais intéressante si le temps le permet.
 
+--------------------------------------------------------------------------- 
+le tri par date est bien par ordre décroissant ; done
+le slider envoie bien vers la slide suivante ; => 
+le filtre par type d’évènement fonctionne ;  DONE 
+le helper getMonth renvoie le bon mois ; DONE 
+la “callback” onSuccess est exécutée ; =>DONE
+la value last est bien implémentée pour que le bon évènement s’affiche dans le footer. => 
