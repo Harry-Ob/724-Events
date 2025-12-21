@@ -10,26 +10,32 @@ const Slider = () => {
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
     new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
   );
+  const dataLength = byDateDesc?.length || 0;
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
-      5000
-    );
+    if(!dataLength) return ; 
+    setIndex((i) => (i + 1) % dataLength);
   };
   useEffect(() => {
-    nextCard();
-  });
+
+    if(!dataLength) return() => {}  ; 
+    const id = setTimeout(() => { 
+      nextCard();
+
+    }, 5000);
+    return () => clearTimeout(id);
+  }, [index, dataLength]); 
   return (
+    // slider
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        // <>
           <div
-            key={event.title}
+            key={ event.id ??event.title ?? idx}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
           >
-            <img src={event.cover} alt="forum" />
+            <img src={event.cover} alt={event.title} />
             <div className="SlideCard__descriptionContainer">
               <div className="SlideCard__description">
                 <h3>{event.title}</h3>
@@ -38,20 +44,25 @@ const Slider = () => {
               </div>
             </div>
           </div>
+
+        // </>
+      ))}
+          {/* pagination */}
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
+              {/* x is a variable it could have been even anything else */}
+              {/* in our case radioIdx cant be used as a stable key for our loop so we used x instead */}
+              {byDateDesc?.map((x, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={x.id}
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  checked={ index === radioIdx}
+                   onChange={() => setIndex(radioIdx)}
                 />
               ))}
             </div>
           </div>
-        </>
-      ))}
     </div>
   );
 };
